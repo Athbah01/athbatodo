@@ -361,14 +361,14 @@ function saveNotes() {
 
 // Add event listener for clicking outside modal
 window.onclick = function(event) {
-    const notesModal = document.getElementById('notesModal');
     const editModal = document.getElementById('editModal');
+    const notesModal = document.getElementById('notesModal');
     
-    if (event.target === notesModal) {
-        closeNotesModal();
-    }
     if (event.target === editModal) {
         closeEditModal();
+    }
+    if (event.target === notesModal) {
+        closeNotesModal();
     }
 }
 
