@@ -178,40 +178,69 @@ function createTaskElement(task) {
 }
 
 function openEditModal(taskId) {
+    currentEditTaskId = taskId;
+    const modal = document.getElementById('editModal');
+    
+    // Get task details
     const tasks = getTasks();
     const task = tasks.find(t => t.id === taskId);
-    if (!task) return;
     
-    editingTaskId = taskId;
-    
-    document.getElementById('editTaskInput').value = task.text;
-    document.getElementById('editDeadlineInput').value = task.deadline || '';
-    document.getElementById('editPriorityInput').value = task.priority;
-    document.getElementById('editCategoryInput').value = task.category;
-    document.getElementById('editNotesInput').value = task.notes || '';
-    
-    document.getElementById('editModal').style.display = 'block';
+    if (task) {
+        // Fill in the edit form
+        document.getElementById('editTaskInput').value = task.text;
+        document.getElementById('editDeadlineInput').value = task.deadline || '';
+        document.getElementById('editPriorityInput').value = task.priority;
+        document.getElementById('editCategoryInput').value = task.category;
+        
+        // Show modal
+        modal.style.display = 'block';
+    }
+}
+
+function closeEditModal() {
+    const modal = document.getElementById('editModal');
+    modal.style.display = 'none';
+    currentEditTaskId = null;
 }
 
 function saveEditTask() {
-    if (!editingTaskId) return;
+    if (!currentEditTaskId) return;
     
-    const tasks = getTasks();
-    const taskIndex = tasks.findIndex(t => t.id === editingTaskId);
-    if (taskIndex === -1) return;
+    const taskInput = document.getElementById('editTaskInput');
+    const deadlineInput = document.getElementById('editDeadlineInput');
+    const priorityInput = document.getElementById('editPriorityInput');
+    const categoryInput = document.getElementById('editCategoryInput');
     
-    tasks[taskIndex] = {
-        ...tasks[taskIndex],
-        text: document.getElementById('editTaskInput').value,
-        deadline: document.getElementById('editDeadlineInput').value,
-        priority: document.getElementById('editPriorityInput').value,
-        category: document.getElementById('editCategoryInput').value,
-        notes: document.getElementById('editNotesInput').value
-    };
+    const taskText = taskInput.value.trim();
     
-    localStorage.setItem('tasks', JSON.stringify(tasks));
-    document.getElementById('editModal').style.display = 'none';
-    loadTasks();
+    if (taskText) {
+        const tasks = getTasks();
+        const taskIndex = tasks.findIndex(t => t.id === currentEditTaskId);
+        
+        if (taskIndex !== -1) {
+            // Update task
+            tasks[taskIndex] = {
+                ...tasks[taskIndex],
+                text: taskText,
+                deadline: deadlineInput.value || null,
+                priority: priorityInput.value,
+                category: categoryInput.value,
+                updatedAt: new Date().toISOString()
+            };
+            
+            // Save to localStorage
+            localStorage.setItem('tasks', JSON.stringify(tasks));
+            
+            // Refresh task list
+            loadTasks();
+            
+            // Show motivation
+            showMotivation();
+        }
+    }
+    
+    // Close modal
+    closeEditModal();
 }
 
 function updateStats() {

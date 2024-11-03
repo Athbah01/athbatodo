@@ -72,7 +72,7 @@
     <!-- Edit Modal -->
     <div id="editModal" class="modal">
         <div class="modal-content">
-            <span class="close-modal">&times;</span>
+            <span class="close-modal" onclick="closeEditModal()">&times;</span>
             <h2>Edit Task</h2>
             
             <div class="form-group">
@@ -102,11 +102,6 @@
                     <option value="personal">Personal</option>
                     <option value="work">Work</option>
                 </select>
-            </div>
-            
-            <div class="form-group">
-                <label for="editNotesInput">Notes</label>
-                <textarea id="editNotesInput" placeholder="Add notes..."></textarea>
             </div>
             
             <button onclick="saveEditTask()">Save Changes</button>
