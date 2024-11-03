@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enhanced Todo List</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>My Daily Tasks ✨</h1>
+        <div class="input-container">
+            <input type="text" id="taskInput" placeholder="Add a new task...">
+            <div class="task-options-group">
+                <input type="datetime-local" id="deadlineInput">
+                <select id="priorityInput" class="priority-select">
+                    <option value="" disabled selected>Select Priority</option>
+                    <option value="urgent">Urgent</option>
+                    <option value="important">Important</option>
+                    <option value="normal">Normal</option>
+                </select>
+                <select id="categoryInput" class="category-select">
+                    <option value="" disabled selected>Select Category</option>
+                    <option value="personal">Personal</option>
+                    <option value="work">Work</option>
+                </select>
+                <button onclick="addTask()" class="add-btn">
+                    <i class="fas fa-plus"></i> Add Task
+                </button>
+            </div>
+        </div>
+        
+        <div class="task-options">
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="Search tasks...">
+                <i class="fas fa-search"></i>
+            </div>
+            
+            <div class="main-filters">
+                <button onclick="filterTasks('all')" class="filter-btn active">All</button>
+                <button onclick="filterTasks('active')" class="filter-btn">Active</button>
+                <button onclick="filterTasks('completed')" class="filter-btn">Completed</button>
+            </div>
+        </div>
+
+        <div class="category-filters">
+            <span class="category-chip all active" onclick="filterByCategory('all')">All</span>
+            <span class="category-chip personal" onclick="filterByCategory('personal')">Personal</span>
+            <span class="category-chip work" onclick="filterByCategory('work')">Work</span>
+        </div>
+
+        <ul id="taskList" class="task-list"></ul>
+        
+        <div class="stats-container">
+            <div class="stat-item">
+                <i class="fas fa-tasks"></i>
+                <span id="totalTasks">0 Total Tasks</span>
+            </div>
+            <div class="stat-item">
+                <i class="fas fa-check-circle"></i>
+                <span id="completedTasks">0 Completed</span>
+            </div>
+            <div class="stat-item">
+                <i class="fas fa-clock"></i>
+                <span id="pendingTasks">0 Pending</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Modal -->
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2>Edit Task</h2>
+            
+            <div class="form-group">
+                <label for="editTaskInput">Task</label>
+                <input type="text" id="editTaskInput" placeholder="Edit your task">
+            </div>
+            
+            <div class="form-group">
+                <label for="editDeadlineInput">Deadline</label>
+                <input type="datetime-local" id="editDeadlineInput">
+            </div>
+            
+            <div class="form-group">
+                <label for="editPriorityInput">Priority</label>
+                <select id="editPriorityInput">
+                    <option value="" disabled>Select Priority</option>
+                    <option value="urgent">Urgent</option>
+                    <option value="important">Important</option>
+                    <option value="normal">Normal</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="editCategoryInput">Category</label>
+                <select id="editCategoryInput">
+                    <option value="" disabled>Select Category</option>
+                    <option value="personal">Personal</option>
+                    <option value="work">Work</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="editNotesInput">Notes</label>
+                <textarea id="editNotesInput" placeholder="Add notes..."></textarea>
+            </div>
+            
+            <button onclick="saveEditTask()">Save Changes</button>
+        </div>
+    </div>
+    
+    <!-- Add this modal for notes -->
+    <div id="notesModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeNotesModal()">&times;</span>
+            <h2>Task Notes</h2>
+            <div class="form-group">
+                <textarea id="taskNotesInput" placeholder="Add notes for this task..."></textarea>
+            </div>
+            <button onclick="saveNotes()">Save Notes</button>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+
+    <!-- Add this right after the body tag opens -->
+    <div class="character-container">
+        <div class="character">
+            <img src="./rabit.png" alt="Motivational Character" class="character-img">
+            <div class="speech-bubble hidden">
+                <p class="motivation-text">You're doing great! Keep going! 🌟</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html> 
